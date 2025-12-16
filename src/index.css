@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide scrollbars */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Smooth transitions for movie cards */
+.movie-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Netflix loading animation */
+@keyframes netflix-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.netflix-loading {
+  animation: netflix-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #000;
+  color: white;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.netflix-gradient {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%);
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Video player controls */
+.video-controls {
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 768px) {
+  .movie-card {
+    width: 140px !important;
+  }
+  
+  .hero-title {
+    font-size: 2rem !important;
+  }
+  
+  .mobile-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Hover effects for movie cards */
+.movie-card:hover {
+  transform: scale(1.05);
+  z-index: 50;
+}
+
+.movie-card-popup {
+  transform: scale(1.1) translateY(-10px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+  z-index: 100;
+}
+
+/* Fix overlapping issues */
+.group:hover {
+  z-index: 50;
+}
+
+.group:hover .movie-card-popup {
+  z-index: 100;
+}
+
+/* Loading skeleton animations */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+/* Netflix red focus states */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #e50914;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+}
+
+/* Smooth page transitions */
+.page-transition {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Custom checkbox styles */
+input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #666;
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background: #e50914;
+  border-color: #e50914;
+}
+
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: -2px;
+  left: 1px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
