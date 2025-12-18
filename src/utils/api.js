@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL:[`${import.meta.env.VITE_API_BASE_URL}/api`,"https://netflix-project-2o3t.onrender.com"] 
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`
 });
 
 // Request interceptor to add token
