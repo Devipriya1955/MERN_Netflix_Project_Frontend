@@ -88,7 +88,6 @@ const VideoPlayer = ({ movie, isOpen, onClose, onProgress, startTime = 0 }) => {
     if (videoRef.current) {
       setCurrentTime(videoRef.current.currentTime);
       
-      // Report progress for continue watching
       if (onProgress) {
         onProgress({
           movieId: movie._id,
@@ -179,7 +178,10 @@ const VideoPlayer = ({ movie, isOpen, onClose, onProgress, startTime = 0 }) => {
         crossOrigin="anonymous"
         preload="metadata"
       >
-        <source src={`http://localhost:5001/api/video/stream/${movie._id}`} type="video/mp4" />
+        <source
+          src={`${import.meta.env.VITE_API_BASE_URL}/api/video/stream/${movie._id}`}
+          type="video/mp4"
+        />
         <source src={movie.videoUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'} type="video/mp4" />
         <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4" />
         <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
@@ -188,73 +190,44 @@ const VideoPlayer = ({ movie, isOpen, onClose, onProgress, startTime = 0 }) => {
 
       {/* Controls Overlay */}
       <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50 transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
-        {/* Top Controls */}
         <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <button
-              onClick={onClose}
-              className="text-white hover:text-gray-300 transition"
-            >
+            <button onClick={onClose} className="text-white hover:text-gray-300 transition">
               <FaTimes size={24} />
             </button>
             <h2 className="text-white text-xl font-bold">{movie.title}</h2>
           </div>
         </div>
 
-        {/* Center Play Button */}
         {!isPlaying && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <button
-              onClick={togglePlay}
-              className="bg-white bg-opacity-20 text-white p-6 rounded-full hover:bg-opacity-30 transition"
-            >
+            <button onClick={togglePlay} className="bg-white bg-opacity-20 text-white p-6 rounded-full hover:bg-opacity-30 transition">
               <FaPlay size={32} />
             </button>
           </div>
         )}
 
-        {/* Bottom Controls */}
         <div className="absolute bottom-0 left-0 right-0 p-6">
-          {/* Progress Bar */}
-          <div 
-            className="w-full h-2 bg-gray-600 rounded-full mb-4 cursor-pointer"
-            onClick={handleSeek}
-          >
-            <div 
-              className="h-full bg-netflix-red rounded-full"
-              style={{ width: `${(currentTime / duration) * 100}%` }}
-            />
+          <div className="w-full h-2 bg-gray-600 rounded-full mb-4 cursor-pointer" onClick={handleSeek}>
+            <div className="h-full bg-netflix-red rounded-full" style={{ width: `${(currentTime / duration) * 100}%` }} />
           </div>
 
-          {/* Control Buttons */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <button
-                onClick={() => skipTime(-10)}
-                className="text-white hover:text-gray-300 transition"
-              >
+              <button onClick={() => skipTime(-10)} className="text-white hover:text-gray-300 transition">
                 <FaBackward size={20} />
               </button>
-              
-              <button
-                onClick={togglePlay}
-                className="text-white hover:text-gray-300 transition"
-              >
+
+              <button onClick={togglePlay} className="text-white hover:text-gray-300 transition">
                 {isPlaying ? <FaPause size={24} /> : <FaPlay size={24} />}
               </button>
-              
-              <button
-                onClick={() => skipTime(10)}
-                className="text-white hover:text-gray-300 transition"
-              >
+
+              <button onClick={() => skipTime(10)} className="text-white hover:text-gray-300 transition">
                 <FaForward size={20} />
               </button>
 
               <div className="flex items-center space-x-2">
-                <button
-                  onClick={toggleMute}
-                  className="text-white hover:text-gray-300 transition"
-                >
+                <button onClick={toggleMute} className="text-white hover:text-gray-300 transition">
                   {isMuted ? <FaVolumeMute size={20} /> : <FaVolumeUp size={20} />}
                 </button>
                 <input
@@ -273,10 +246,7 @@ const VideoPlayer = ({ movie, isOpen, onClose, onProgress, startTime = 0 }) => {
               </span>
             </div>
 
-            <button
-              onClick={toggleFullscreen}
-              className="text-white hover:text-gray-300 transition"
-            >
+            <button onClick={toggleFullscreen} className="text-white hover:text-gray-300 transition">
               {isFullscreen ? <FaCompress size={20} /> : <FaExpand size={20} />}
             </button>
           </div>
