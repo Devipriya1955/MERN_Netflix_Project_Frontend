@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -16,8 +16,8 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Pre-fill email if coming from landing page
-  useState(() => {
+  // ✅ FIX: useEffect instead of useState for side effect
+  useEffect(() => {
     if (location.state?.email) {
       setFormData(prev => ({ ...prev, email: location.state.email }));
     }
@@ -44,14 +44,18 @@ const Register = () => {
     }
 
     try {
-      const result = await register(formData.name, formData.email, formData.password);
+      const result = await register(
+        formData.name,
+        formData.email,
+        formData.password
+      );
       
       if (result.success) {
         navigate('/browse');
       } else {
         setError(result.message || 'Registration failed');
       }
-    } catch (error) {
+    } catch (err) {
       setError('Network error. Please try again.');
     } finally {
       setLoading(false);
@@ -107,29 +111,25 @@ const Register = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full p-4 border border-gray-300 rounded text-lg text-black bg-white focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
-              required
-            />
-          </div>
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full p-4 border border-gray-300 rounded text-lg text-black bg-white focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
+            required
+          />
 
-          <div>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-4 border border-gray-300 rounded text-lg text-black bg-white focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
-              required
-            />
-          </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full p-4 border border-gray-300 rounded text-lg text-black bg-white focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
+            required
+          />
           
           <div className="relative">
             <input
@@ -150,10 +150,6 @@ const Register = () => {
             </button>
           </div>
 
-          <div className="text-sm text-gray-600 space-y-2">
-            <p>Password should be between 6 and 60 characters.</p>
-          </div>
-          
           <button
             type="submit"
             disabled={loading}
@@ -164,20 +160,12 @@ const Register = () => {
         </form>
 
         <div className="mt-8 text-sm text-gray-600">
-          <p className="mb-4">
-            By clicking "Continue", you agree to the Netflix{' '}
-            <a href="#" className="text-blue-600 hover:underline">Terms of Use</a> and{' '}
-            <a href="#" className="text-blue-600 hover:underline">Privacy Statement</a>.
+          <p>
+            Already have an account?{' '}
+            <Link to="/login" className="text-blue-600 hover:underline font-medium">
+              Sign in
+            </Link>
           </p>
-          
-          <div className="border-t border-gray-200 pt-6">
-            <p>
-              Already have an account?{' '}
-              <Link to="/login" className="text-blue-600 hover:underline font-medium">
-                Sign in
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
     </div>
