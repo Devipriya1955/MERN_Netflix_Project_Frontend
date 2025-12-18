@@ -11,14 +11,17 @@ const MovieCard = ({ movie, userList = [], onPlay }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isInMyList, setIsInMyList] = useState(false);
   const [liked, setLiked] = useState(null);
-  const [imageError, setImageError] = useState(false);
+  const [posterError, setPosterError] = useState(false);
+  const [backdropError, setBackdropError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
     setIsInMyList(userList.some(item => item._id === movie._id));
-  }, [userList, movie._id]);
+    setPosterError(false);
+    setBackdropError(false);
+  }, [userList, movie._id, movie.poster, movie.backdrop]);
 
   const handlePlay = (e) => {
     e.stopPropagation();
@@ -72,14 +75,10 @@ const MovieCard = ({ movie, userList = [], onPlay }) => {
     return 'text-red-500';
   };
 
-  const getAgeRating = (rating) => {
-    if (rating >= 8) return '18+';
-    if (rating >= 6) return '13+';
-    return 'U/A 7+';
-  };
 
-  const fallbackImage = `https://via.placeholder.com/300x450/1a1a1a/ffffff?text=${encodeURIComponent(movie.title?.substring(0, 20) || 'Movie')}`;
-  const fallbackBackdrop = `https://via.placeholder.com/1280x720/1a1a1a/ffffff?text=${encodeURIComponent(movie.title?.substring(0, 30) || 'Movie')}`;
+
+  const fallbackImage = `https://placehold.co/300x450/1a1a1a/ffffff?text=${encodeURIComponent(movie.title?.substring(0, 20) || 'Movie')}`;
+  const fallbackBackdrop = `https://placehold.co/1280x720/1a1a1a/ffffff?text=${encodeURIComponent(movie.title?.substring(0, 30) || 'Movie')}`;
 
   return (
     <>
@@ -92,10 +91,10 @@ const MovieCard = ({ movie, userList = [], onPlay }) => {
         {/* Vertical Movie Card */}
         <div className="w-48 h-72 rounded-sm overflow-hidden bg-gray-900 transition-transform duration-300 group-hover:scale-105 cursor-pointer">
           <img
-            src={imageError ? fallbackImage : (movie.poster || fallbackImage)}
+            src={posterError ? fallbackImage : (movie.poster || fallbackImage)}
             alt={movie.title}
             className="w-full h-full object-cover"
-            onError={() => setImageError(true)}
+            onError={() => setPosterError(true)}
           />
         </div>
 
@@ -105,10 +104,10 @@ const MovieCard = ({ movie, userList = [], onPlay }) => {
         {/* Video/Image Header */}
         <div className="relative w-full h-44 rounded-t-lg overflow-hidden">
           <img
-            src={imageError ? fallbackBackdrop : (movie.backdrop || movie.poster || fallbackBackdrop)}
+            src={backdropError ? fallbackBackdrop : (movie.backdrop || movie.poster || fallbackBackdrop)}
             alt={movie.title}
             className="w-full h-full object-cover"
-            onError={() => setImageError(true)}
+            onError={() => setBackdropError(true)}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-netflix-black/90 to-transparent" />
           
@@ -191,9 +190,7 @@ const MovieCard = ({ movie, userList = [], onPlay }) => {
                 {Math.round(movie.rating * 10)}% Match
               </span>
               <span className="text-gray-300">{movie.year}</span>
-              <span className="border border-gray-400 px-1 text-xs text-gray-300">
-                {getAgeRating(movie.rating)}
-              </span>
+
             </div>
 
             <div className="flex flex-wrap gap-1">

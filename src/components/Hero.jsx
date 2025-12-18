@@ -49,7 +49,7 @@ const Hero = ({ movie, onPlay }) => {
             loop
             className="w-full h-full object-cover"
           >
-            <source src={movie.videoUrl} type="video/mp4" />
+            <source src="/videos/hero-video.mp4" type="video/mp4" />
             <img
               src={movie.backdrop}
               alt={movie.title}
@@ -85,9 +85,7 @@ const Hero = ({ movie, onPlay }) => {
               {Math.floor(movie.rating * 10)}% Match
             </span>
             <span className="text-lg font-medium">{movie.year}</span>
-            <span className="border border-gray-400 px-2 py-1 text-sm">
-              {movie.rating >= 8 ? 'TV-MA' : movie.rating >= 6 ? 'TV-14' : 'TV-PG'}
-            </span>
+
             <span className="text-lg">{movie.duration}</span>
             <span className="border border-gray-400 px-2 py-1 text-sm">HD</span>
           </div>
@@ -138,12 +136,7 @@ const Hero = ({ movie, onPlay }) => {
         </button>
       )}
 
-      {/* Age Rating Badge */}
-      <div className="absolute bottom-32 left-4 lg:left-16 z-20">
-        <div className="bg-gray-800 bg-opacity-80 text-white px-3 py-1 text-sm font-bold">
-          {movie.rating >= 8 ? '18+' : movie.rating >= 6 ? '13+' : 'U/A 7+'}
-        </div>
-      </div>
+
     </div>
   );
 };

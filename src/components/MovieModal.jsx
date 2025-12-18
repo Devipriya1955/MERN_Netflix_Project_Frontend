@@ -104,9 +104,7 @@ const MovieModal = ({ movie, isOpen, onClose, userList = [] }) => {
                   {Math.round(movie.rating * 10)}% Match
                 </span>
                 <span className="text-gray-300">{movie.year}</span>
-                <span className="border border-gray-400 px-2 py-1 text-sm text-gray-300">
-                  {movie.rating >= 8 ? '18+' : movie.rating >= 6 ? '13+' : 'U/A 7+'}
-                </span>
+
                 <span className="text-gray-300">{movie.duration || '2h 15m'}</span>
               </div>
               

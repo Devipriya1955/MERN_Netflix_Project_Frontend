@@ -66,7 +66,7 @@ const ContinueWatching = ({ onPlayMovie }) => {
           <div key={item._id} className="flex-shrink-0 w-80 group cursor-pointer">
             <div className="relative">
               <img
-                src={item.movie?.backdrop || item.movie?.poster || 'https://via.placeholder.com/320x180/333333/ffffff?text=Movie'}
+                src={item.movie?.backdrop || item.movie?.poster || 'https://placehold.co/320x180/333333/ffffff?text=Movie'}
                 alt={item.movie?.title || 'Movie'}
                 className="w-full h-44 object-cover rounded-md"
               />
